@@ -45,3 +45,50 @@ public final class NerdianChordEngine {
         }
         BigInteger acc = BigInteger.ZERO;
         for (int i = 0; i < weights.length; i++) {
+            BigInteger term = BigInteger.valueOf(weights[i]);
+            int e = (int) exponents[i];
+            if (e > 7) {
+                throw new IllegalArgumentException("exp");
+            }
+            for (int k = 1; k < e; k++) {
+                term = term.multiply(BigInteger.valueOf(weights[i]));
+            }
+            acc = saturatingAdd(acc, term);
+        }
+        return acc;
+    }
+
+    public static BigInteger hilbertSlot(int dimBits, long x, long y) {
+        if (dimBits <= 0 || dimBits > 32) {
+            throw new IllegalArgumentException("dim");
+        }
+        BigInteger maxC = BigInteger.ONE.shiftLeft(dimBits).subtract(BigInteger.ONE);
+        BigInteger X = BigInteger.valueOf(x);
+        BigInteger Y = BigInteger.valueOf(y);
+        if (X.compareTo(maxC) > 0 || Y.compareTo(maxC) > 0) {
+            throw new IllegalArgumentException("bounds");
+        }
+        BigInteger slot = BigInteger.ZERO;
+        for (int s = dimBits; s > 0; s--) {
+            int sh = s - 1;
+            BigInteger rx = X.shiftRight(sh).and(BigInteger.ONE);
+            BigInteger ry = Y.shiftRight(sh).and(BigInteger.ONE);
+            slot = slot.shiftLeft(2).or(rx.multiply(BigInteger.valueOf(3)).xor(ry));
+            if (ry.equals(BigInteger.ZERO)) {
+                if (rx.equals(BigInteger.ONE)) {
+                    X = maxC.subtract(X);
+                    Y = maxC.subtract(Y);
+                }
+                BigInteger t = X;
+                X = Y;
+                Y = t;
+            }
+        }
+        return slot;
+    }
+
+    public static long chebyshevT(int n, long x) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n == 1) {
