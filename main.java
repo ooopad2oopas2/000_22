@@ -609,3 +609,49 @@ public final class NerdianChordEngine {
 
     public static double hcLeaf043(double t) {
         return Math.abs(Math.sin(t)) + 0.1 * Math.abs(Math.cos(3 * t));
+    }
+
+    public static double hcLeaf044(double t) {
+        return Math.pow(2.0, Math.sin(t)) - 1.0;
+    }
+
+    public static double hcLeaf045(double t) {
+        return Math.log(Math.abs(Math.sin(t)) + 1e-6);
+    }
+
+    public static double hcLeaf046(double t) {
+        return Math.sqrt(Math.sin(t) * Math.sin(t) + Math.cos(t) * Math.cos(t));
+    }
+
+    public static double hcLeaf047(double t) {
+        return Math.sin(2 * Math.PI * t * 0.07);
+    }
+
+    public static double hcLeaf048(double t) {
+        return Math.cos(2 * Math.PI * t * 0.11);
+    }
+
+    public static double hcLeaf049(double t) {
+        return hcLeaf048(t) * hcLeaf047(t);
+    }
+
+    public static double hcLeaf050(double t) {
+        return Math.sin(t) / (1.0 + t * t);
+    }
+
+    public static double hcLeaf051(double t) {
+        return Math.exp(-t * t * 0.02) * Math.cos(9 * t);
+    }
+
+    public static double hcLeaf052(double t) {
+        return (Math.sin(t) + Math.cos(t)) / Math.sqrt(2.0);
+    }
+
+    public static double hcLeaf053(double t) {
+        return Math.floorMod((long) (t * 1000), 997) / 997.0;
+    }
+
+    public static double hcLeaf054(double t) {
+        return Math.scalb(Math.sin(t + 0.12), -1);
+    }
+}
