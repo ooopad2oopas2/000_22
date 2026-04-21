@@ -186,3 +186,50 @@ public final class NerdianChordEngine {
         }
         return g;
     }
+
+    public static BigInteger lcmMany(long[] vals) {
+        if (vals.length == 0) {
+            throw new IllegalArgumentException("empty");
+        }
+        BigInteger l = BigInteger.valueOf(vals[0]);
+        for (int i = 1; i < vals.length; i++) {
+            BigInteger v = BigInteger.valueOf(vals[i]);
+            if (v.equals(BigInteger.ZERO)) {
+                throw new IllegalArgumentException("zero");
+            }
+            l = l.divide(l.gcd(v)).multiply(v);
+        }
+        return l;
+    }
+
+    public static double kahanSum(double[] terms) {
+        double sum = 0.0;
+        double c = 0.0;
+        for (double x : terms) {
+            double y = x - c;
+            double t = sum + y;
+            c = (t - sum) - y;
+            sum = t;
+        }
+        return sum;
+    }
+
+    public static double[] softmax(double[] logits, double temp) {
+        if (temp == 0.0) {
+            throw new IllegalArgumentException("temp");
+        }
+        double m = Arrays.stream(logits).max().orElse(0);
+        double[] ex = Arrays.stream(logits).map(z -> Math.exp((z - m) / temp)).toArray();
+        double s = Arrays.stream(ex).sum();
+        for (int i = 0; i < ex.length; i++) {
+            ex[i] /= s;
+        }
+        return ex;
+    }
+
+    public static String hexOfSha256(byte[] data) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            return HexFormat.of().formatHex(md.digest(data));
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
