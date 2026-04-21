@@ -280,3 +280,50 @@ public final class NerdianChordEngine {
         }
         int la = a.length;
         int lb = b.length;
+        int[] row = new int[lb + 1];
+        for (int j = 0; j <= lb; j++) {
+            row[j] = j;
+        }
+        for (int i = 1; i <= la; i++) {
+            int prev = row[0];
+            row[0] = i;
+            for (int j = 1; j <= lb; j++) {
+                int tmp = row[j];
+                int cost = a[i - 1] == b[j - 1] ? 0 : 1;
+                row[j] = Math.min(Math.min(row[j] + 1, row[j - 1] + 1), prev + cost);
+                prev = tmp;
+            }
+            if (row[lb] > maxDist) {
+                return maxDist + 1;
+            }
+        }
+        return row[lb];
+    }
+
+    public static BigInteger cantorPair(long a, long b) {
+        BigInteger A = BigInteger.valueOf(a);
+        BigInteger B = BigInteger.valueOf(b);
+        BigInteger s = A.add(B);
+        return s.multiply(s.add(BigInteger.ONE)).divide(BigInteger.TWO).add(B);
+    }
+
+    public static BigInteger triangularRootFloor(BigInteger s) {
+        BigInteger lo = BigInteger.ZERO;
+        BigInteger hi = BigInteger.TWO.pow(128);
+        while (lo.compareTo(hi) < 0) {
+            BigInteger mid = lo.add(hi).add(BigInteger.ONE).shiftRight(1);
+            BigInteger t = mid.multiply(mid.add(BigInteger.ONE)).shiftRight(1);
+            if (t.compareTo(s) <= 0) {
+                lo = mid;
+            } else {
+                hi = mid.subtract(BigInteger.ONE);
+            }
+        }
+        return lo;
+    }
+
+    public static long horner(long[] coeffs, long x) {
+        if (coeffs.length == 0) {
+            throw new IllegalArgumentException("coeffs");
+        }
+        long y = coeffs[0];
