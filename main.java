@@ -421,3 +421,50 @@ public final class NerdianChordEngine {
                 + ANCHOR_OWNER
                 + "\"\n"
                 + "}";
+    }
+
+    public static void main(String[] args) {
+        long[] w = {2, 3, 5};
+        long[] e = {2, 1, 3};
+        System.out.println(foldComplexity(w, e));
+        System.out.println(hilbertSlot(3, 2, 5));
+        System.out.println(prettyJsonDeploy("0x0000000000000000000000000000000000000001"));
+        rosterSnapshot().forEach(System.out::println);
+    }
+
+    /* --- worksheet leaf routines (deterministic catalog) --- */
+
+    public static double hcLeaf000(double t) {
+        return Math.sin(t * 1.000) * Math.cos(t * 0.707);
+    }
+
+    public static double hcLeaf001(double t) {
+        return Math.sin(t * 1.013) + 0.25 * Math.sin(t * 2.237);
+    }
+
+    public static double hcLeaf002(double t) {
+        return Math.cos(t * 0.913) * Math.exp(-t * 0.01);
+    }
+
+    public static double hcLeaf003(double t) {
+        return Math.tan(Math.min(Math.max(t, -1.2), 1.2));
+    }
+
+    public static double hcLeaf004(double t) {
+        return Math.log1p(Math.abs(t)) * Math.signum(Math.sin(t));
+    }
+
+    public static double hcLeaf005(double t) {
+        return Math.cbrt(t + 1.0) - 1.0;
+    }
+
+    public static double hcLeaf006(double t) {
+        return Math.sinh(t * 0.05) * 10.0;
+    }
+
+    public static double hcLeaf007(double t) {
+        return Math.cosh(t * 0.03) - 1.0;
+    }
+
+    public static double hcLeaf008(double t) {
+        return Math.hypot(Math.sin(t), Math.cos(t * 1.1));
