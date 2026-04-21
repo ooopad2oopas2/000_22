@@ -139,3 +139,50 @@ public final class NerdianChordEngine {
         }
         return c;
     }
+
+    public static long grayCode(long x) {
+        return x ^ (x >>> 1);
+    }
+
+    public static long inverseGray(long g) {
+        long x = g;
+        g >>>= 1;
+        while (g != 0) {
+            x ^= g;
+            g >>>= 1;
+        }
+        return x;
+    }
+
+    public static int longestIncreasingSubsequence(int[] seq) {
+        int[] tail = new int[seq.length];
+        int len = 0;
+        for (int value : seq) {
+            int lo = 0;
+            int hi = len;
+            while (lo < hi) {
+                int mid = (lo + hi) >>> 1;
+                if (tail[mid] < value) {
+                    lo = mid + 1;
+                } else {
+                    hi = mid;
+                }
+            }
+            tail[lo] = value;
+            if (lo == len) {
+                len++;
+            }
+        }
+        return len;
+    }
+
+    public static BigInteger gcdMany(long[] vals) {
+        if (vals.length == 0) {
+            throw new IllegalArgumentException("empty");
+        }
+        BigInteger g = BigInteger.valueOf(vals[0]);
+        for (int i = 1; i < vals.length; i++) {
+            g = g.gcd(BigInteger.valueOf(vals[i]));
+        }
+        return g;
+    }
