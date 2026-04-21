@@ -327,3 +327,50 @@ public final class NerdianChordEngine {
             throw new IllegalArgumentException("coeffs");
         }
         long y = coeffs[0];
+        for (int i = 1; i < coeffs.length; i++) {
+            y = y * x + coeffs[i];
+        }
+        return y;
+    }
+
+    public static long eulerTotientSmall(long n) {
+        if (n == 0) {
+            return 0;
+        }
+        long phi = n;
+        long t = n;
+        for (long p = 2; p * p <= t; p++) {
+            if (t % p == 0) {
+                while (t % p == 0) {
+                    t /= p;
+                }
+                phi -= phi / p;
+            }
+        }
+        if (t > 1) {
+            phi -= phi / t;
+        }
+        return phi;
+    }
+
+    public static int collatzSteps(long seed, int maxSteps) {
+        long x = seed;
+        int steps = 0;
+        while (x != 1 && steps < maxSteps) {
+            if ((x & 1) == 0) {
+                x >>>= 1;
+            } else {
+                x = 3 * x + 1;
+            }
+            steps++;
+        }
+        return steps;
+    }
+
+    public static double monteCarloPi(long seed, int samples) {
+        java.util.Random rng = new java.util.Random(seed);
+        int hit = 0;
+        for (int i = 0; i < samples; i++) {
+            double x = rng.nextDouble();
+            double y = rng.nextDouble();
+            if (x * x + y * y <= 1.0) {
