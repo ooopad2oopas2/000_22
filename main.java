@@ -374,3 +374,50 @@ public final class NerdianChordEngine {
             double x = rng.nextDouble();
             double y = rng.nextDouble();
             if (x * x + y * y <= 1.0) {
+                hit++;
+            }
+        }
+        return 4.0 * hit / samples;
+    }
+
+    public static BigInteger rollingBatchHash(BigInteger seed, long[] limbs) {
+        if (limbs.length > 41) {
+            throw new IllegalArgumentException("batch");
+        }
+        BigInteger h = seed;
+        for (long v : limbs) {
+            h = new BigInteger(1, sha256(h.toByteArray(), BigInteger.valueOf(v).toByteArray()));
+        }
+        return h;
+    }
+
+    private static byte[] sha256(byte[] a, byte[] b) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(a);
+            md.update(b);
+            return md.digest();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static String prettyJsonDeploy(String stakeToken) {
+        Objects.requireNonNull(stakeToken, "stakeToken");
+        return "{\n"
+                + "  \"stake_token\": \""
+                + stakeToken
+                + "\",\n"
+                + "  \"treasury\": \""
+                + ANCHOR_TREASURY
+                + "\",\n"
+                + "  \"math_oracle\": \""
+                + ANCHOR_ORACLE
+                + "\",\n"
+                + "  \"guardian\": \""
+                + ANCHOR_GUARDIAN
+                + "\",\n"
+                + "  \"owner\": \""
+                + ANCHOR_OWNER
+                + "\"\n"
+                + "}";
