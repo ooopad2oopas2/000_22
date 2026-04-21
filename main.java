@@ -468,3 +468,50 @@ public final class NerdianChordEngine {
 
     public static double hcLeaf008(double t) {
         return Math.hypot(Math.sin(t), Math.cos(t * 1.1));
+    }
+
+    public static double hcLeaf009(double t) {
+        return Math.IEEEremainder(t, Math.PI);
+    }
+
+    public static double hcLeaf010(double t) {
+        return Math.scalb(Math.sin(t), 1);
+    }
+
+    public static double hcLeaf011(double t) {
+        return Math.copySign(Math.sqrt(Math.abs(t) + 1e-9), Math.sin(t));
+    }
+
+    public static double hcLeaf012(double t) {
+        return Math.nextUp(Math.abs(Math.sin(t)));
+    }
+
+    public static double hcLeaf013(double t) {
+        return Math.floor(t) + 0.5 * Math.sin(t);
+    }
+
+    public static double hcLeaf014(double t) {
+        return Math.ceil(t * 0.5) * 0.1;
+    }
+
+    public static double hcLeaf015(double t) {
+        return Math.rint(t * 3.0) / 3.0;
+    }
+
+    public static double hcLeaf016(double t) {
+        return Math.toDegrees(Math.atan(t));
+    }
+
+    public static double hcLeaf017(double t) {
+        return Math.toRadians(t) * 57.0;
+    }
+
+    public static double hcLeaf018(double t) {
+        return Math.sin(Math.cos(t)) + Math.cos(Math.sin(t));
+    }
+
+    public static double hcLeaf019(double t) {
+        return Math.exp(-Math.abs(t)) * Math.sin(5 * t);
+    }
+
+    public static double hcLeaf020(double t) {
