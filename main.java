@@ -92,3 +92,50 @@ public final class NerdianChordEngine {
             return 1;
         }
         if (n == 1) {
+            return x;
+        }
+        long t0 = 1;
+        long t1 = x;
+        for (int k = 2; k <= n; k++) {
+            long y = 2 * t1 * x - t0;
+            t0 = t1;
+            t1 = y;
+        }
+        return t1;
+    }
+
+    public static long lucasMod(int index, long mod) {
+        if (mod < 3) {
+            throw new IllegalArgumentException("mod");
+        }
+        if (index == 0) {
+            return 2 % mod;
+        }
+        if (index == 1) {
+            return 1 % mod;
+        }
+        long a = 2 % mod;
+        long b = 1 % mod;
+        for (int i = 2; i <= index; i++) {
+            long c = (a + b) % mod;
+            a = b;
+            b = c;
+        }
+        return b;
+    }
+
+    public static BigInteger modularExp(BigInteger base, BigInteger exp, BigInteger mod) {
+        if (mod.compareTo(BigInteger.ONE) <= 0) {
+            throw new IllegalArgumentException("mod");
+        }
+        return base.modPow(exp, mod);
+    }
+
+    public static int popcount(long x) {
+        int c = 0;
+        while (x != 0) {
+            x &= x - 1;
+            c++;
+        }
+        return c;
+    }
