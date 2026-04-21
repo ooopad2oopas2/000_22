@@ -233,3 +233,50 @@ public final class NerdianChordEngine {
             return HexFormat.of().formatHex(md.digest(data));
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException(e);
+        }
+    }
+
+    public static String domainGlue(String label, long kernelId, String operator) {
+        String payload = label + "|" + kernelId + "|" + operator.toLowerCase(Locale.ROOT);
+        return hexOfSha256(payload.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static List<String> rosterSnapshot() {
+        ArrayList<String> r = new ArrayList<>();
+        r.add(ANCHOR_TREASURY);
+        r.add(ANCHOR_ORACLE);
+        r.add(ANCHOR_GUARDIAN);
+        r.add(ANCHOR_OWNER);
+        r.add(AUX_SIGNAL_A);
+        r.add(AUX_SIGNAL_B);
+        r.add(AUX_SIGNAL_C);
+        r.add(AUX_SIGNAL_D);
+        r.add(AUX_SIGNAL_E);
+        r.add(AUX_SIGNAL_F);
+        return List.copyOf(r);
+    }
+
+    public static boolean isPlausibleEvmAddress(String s) {
+        if (s == null || s.length() != 42 || !s.startsWith("0x")) {
+            return false;
+        }
+        String h = s.substring(2);
+        if (h.length() != 40) {
+            return false;
+        }
+        for (int i = 0; i < h.length(); i++) {
+            char c = h.charAt(i);
+            boolean hex = (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+            if (!hex) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int levenshteinBounded(byte[] a, byte[] b, int maxDist) {
+        if (a.length > 32 || b.length > 32) {
+            throw new IllegalArgumentException("len");
+        }
+        int la = a.length;
+        int lb = b.length;
